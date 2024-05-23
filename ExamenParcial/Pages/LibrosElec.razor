@@ -1,0 +1,123 @@
+﻿@page "/LibrosElec"
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<PageTitle>Revistas</PageTitle>
+
+<h1>Ingreso de libros electronicos </h1>
+
+
+<EditForm Model="@librosElec" OnValidSubmit="@Guardar">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label for="Titulo">Titulo: </label>
+        <InputText id="Titulo" @bind-Value="librosElec.Titulo" class="form-control" />
+        <ValidationMessage For="() => librosElec.Titulo" />
+    </div>
+    <div>
+        <label for="Autor">Autor: </label>
+        <InputText id="Autor" @bind-Value="librosElec.Autor" class="form-control" />
+        <ValidationMessage For="() => librosElec.Autor" />
+    </div>
+    <div>
+        <label for="Genero">Genero: </label>
+        <InputText id="Genero" @bind-Value="librosElec.Genero" class="form-control" />
+        <ValidationMessage For="() => librosElec.Genero" />
+    </div>
+    <div>
+        <label for="AñoPublicacion">Año de Publicacion: </label>
+        <InputText id="AñoPublicacion" @bind-Value="librosElec.AñoPublicacion" class="form-control" />
+        <ValidationMessage For="() => librosElec.AñoPublicacion" />
+    </div>
+
+    
+    <div class="form-group">
+        <label for="Formato">Formato</label>
+        <select class="form-control" @bind="@librosElec.Formato">
+            <option value=" "></option>
+            <option value="pdf">PDF</option>
+            <option value="EPUB">EPUB</option>
+            <option value="MOBI">MOBI</option>
+            <option value="Otro">Otro</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="Tamaño">Tamaño de Archivo: </label>
+        <InputText id="Tamaño" @bind-Value="librosElec.Tamaño" class="form-control" />
+        <ValidationMessage For="() => librosElec.Tamaño" />
+    </div>
+
+
+   
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Guardar</button>
+    </div>
+</EditForm>
+
+
+
+@if (listaLibrosElec != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titulo</th>
+                <th>Autor</th>
+                <th>Genero</th>
+                <th>Año de publicacion</th>
+                <th>Formato</th>
+                <th>Tamaño de archivo</th>
+                <th>Editar</th>
+                <th>Borrar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Revistas in listaLibrosElec)
+            {
+                <tr>
+                    <td>@Revistas.Titulo</td>
+                    <td>@Revistas.Autor</td>
+                    <td>@Revistas.Genero</td>
+                    <td>@Revistas.AñoPublicacion</td>
+                    <td>@Revistas.Formato</td>
+                    <td>@Revistas.Tamaño</td>
+                    <td><button class="btn btn-warning" @onclick="@(() => NavigationManager.NavigateTo($"/ElectronicosEditar/{Revistas.Autor}"))">editar</button></td>
+                    <td><button class="btn btn-danger" @onclick="@(() => Borrar(Revistas.Autor))">Borrar</button></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    ClaseLibrosElectronicos librosElec = new ClaseLibrosElectronicos();
+    List<ClaseLibrosElectronicos> listaLibrosElec = new List<ClaseLibrosElectronicos>();
+    
+    protected async Task Guardar()
+    {
+        
+        listaLibrosElec.Add(librosElec);
+        librosElec = new ClaseLibrosElectronicos();
+
+        await localStorage.SetItemAsync("listaLibrosElec", listaLibrosElec);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        listaLibrosElec = await localStorage.GetItemAsync<List<ClaseLibrosElectronicos>>("listaLibrosElec");
+
+        if (listaLibrosElec == null)
+        {
+            listaLibrosElec=  new List<ClaseLibrosElectronicos>();
+        }
+
+    }
+
+    protected async Task Borrar(string nombre)
+    {
+        listaLibrosElec.Remove(listaLibrosElec.First(c => c.Autor == nombre));
+        await localStorage.SetItemAsync("listaLibrosElec", listaLibrosElec);
+    }
+}
+

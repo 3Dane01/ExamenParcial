@@ -1,0 +1,9 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+<h1>Seleccionar Cual desea ingresar</h1>
+<div class="form-group">
+    <td><button class="btn btn-primary" @onclick="@(() => NavigationManager.NavigateTo($"/Libros"))">Libros</button></td>
+    <td><button class="btn btn-primary" @onclick="@(() => NavigationManager.NavigateTo($"/Revistas"))">Revistas</button></td>
+
+    <td><button class="btn btn-primary" @onclick="@(() => NavigationManager.NavigateTo($"/LibrosElec"))">Libros Electronicos</button></td>
+</div>
