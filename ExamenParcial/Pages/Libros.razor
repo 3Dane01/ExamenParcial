@@ -70,7 +70,7 @@
 @code {
     ClaseLibro libros = new ClaseLibro();
     List<ClaseLibro> listaLibros = new List<ClaseLibro>();
-    
+
     protected async Task Guardar()
     {
         
@@ -81,7 +81,7 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        listaLibros = await localStorage.GetItemAsync<List<ClaseLibro>>("listaLibro");
+        listaLibros = await localStorage.GetItemAsync<List<ClaseLibro>>("listaLibros");
 
         if (listaLibros == null)
         {

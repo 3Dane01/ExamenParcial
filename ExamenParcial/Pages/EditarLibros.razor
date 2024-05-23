@@ -3,7 +3,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 <PageTitle>Libros</PageTitle>
 
-<h1>Ingreso de libros </h1>
+<h1>Editar libros </h1>
 
 <EditForm Model="@libros" OnValidSubmit="@Guardar">
 
@@ -47,7 +47,7 @@
     }
     protected override async Task OnInitializedAsync()
     {
-        listaLibros = await localStorage.GetItemAsync<List<ClaseLibro>>("listaLibro");
+        listaLibros = await localStorage.GetItemAsync<List<ClaseLibro>>("listaLibros");
 
         if (listaLibros == null)
         {
