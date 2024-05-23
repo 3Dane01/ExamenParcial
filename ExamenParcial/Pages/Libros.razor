@@ -33,6 +33,7 @@
     <div class="form-group">
         <button type="submit" class="btn btn-danger">Guardar</button>
     </div>
+
 </EditForm>
 
 
@@ -60,7 +61,7 @@
                     <td>@Revistas.Genero</td>
                     <td>@Revistas.AñoPublicacion</td>
                     <td><button class="btn btn-warning" @onclick="@(() => NavigationManager.NavigateTo($"/librosEditar/{Revistas.Autor}"))">editar</button></td>
-
+                    <td><button class="btn btn-danger" @onclick="@(() => Borrar(Revistas.Autor))">Borrar</button></td>
                 </tr>
             }
         </tbody>
@@ -87,6 +88,11 @@
             listaLibros =  new List<ClaseLibro>();
         }
 
+    }
+    protected async Task Borrar(string nombre)
+    {
+        listaLibros.Remove(listaLibros.First(c => c.Autor == nombre));
+        await localStorage.SetItemAsync("listaLibrosElec", listaLibros);
     }
 
 }

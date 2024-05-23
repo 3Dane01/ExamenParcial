@@ -72,8 +72,7 @@
                     <td>@Revistas.Volumen</td>
                     <td>@Revistas.NumeroEjemplar</td>
                     <td><button class="btn btn-warning" @onclick="@(() => NavigationManager.NavigateTo($"/RevistasEditar/{Revistas.Autor}"))">editar</button></td>
-                    
-
+                    <td><button class="btn btn-danger" @onclick="@(() => Borrar(Revistas.Autor))">Borrar</button></td>
                 </tr>
             }
         </tbody>
@@ -98,6 +97,11 @@
             listaRevistas = new List<ClaseRevistas>();
         }
 
+    }
+    protected async Task Borrar(string nombre)
+    {
+        listaRevistas.Remove(listaRevistas.First(c => c.Autor == nombre));
+        await localStorage.SetItemAsync("listaRevistas", listaRevistas);
     }
 }
 

@@ -60,14 +60,12 @@
 @code {
     ClaseLibrosElectronicos librosElec = new ClaseLibrosElectronicos();
     List<ClaseLibrosElectronicos> listaLibrosElec = new List<ClaseLibrosElectronicos>();
-    
+    [Parameter]
+    public string Autor { get; set; }
     protected async Task Guardar()
     {
-        
-        listaLibrosElec.Add(librosElec);
-        librosElec = new ClaseLibrosElectronicos();
-
         await localStorage.SetItemAsync("listaLibrosElec", listaLibrosElec);
+        NavigationManager.NavigateTo("/LibrosElec");
     }
     protected override async Task OnInitializedAsync()
     {
@@ -77,6 +75,7 @@
         {
             listaLibrosElec=  new List<ClaseLibrosElectronicos>();
         }
+        librosElec = listaLibrosElec.FirstOrDefault(c => c.Autor == Autor);
 
     }
 }

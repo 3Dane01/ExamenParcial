@@ -48,12 +48,12 @@
 @code {
     ClaseRevistas revistas = new ClaseRevistas();
     List<ClaseRevistas> listaRevistas = new List<ClaseRevistas>();
+    [Parameter]
+    public string Autor { get; set; }
     protected async Task Guardar()
     {
-        listaRevistas.Add(revistas);
-        revistas = new ClaseRevistas();
-
         await localStorage.SetItemAsync("listaRevistas", listaRevistas);
+        NavigationManager.NavigateTo("/Revistas");
     }
     protected override async Task OnInitializedAsync()
     {
@@ -64,6 +64,7 @@
             listaRevistas = new List<ClaseRevistas>();
         }
 
+        revistas= listaRevistas.FirstOrDefault(c => c.Autor == Autor);
     }
 
     

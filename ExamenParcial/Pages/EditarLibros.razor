@@ -1,4 +1,4 @@
-﻿@page "/LibrosEditar"
+﻿@page "/librosEditar/{Autor}"
 @inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 <PageTitle>Libros</PageTitle>
@@ -38,14 +38,12 @@
 @code {
     ClaseLibro libros = new ClaseLibro();
     List<ClaseLibro> listaLibros = new List<ClaseLibro>();
-    
+    [Parameter]
+    public string Autor { get; set; }
     protected async Task Guardar()
     {
-        
-        listaLibros.Add(libros);
-        libros = new ClaseLibro();
-
         await localStorage.SetItemAsync("listaLibros", listaLibros);
+        NavigationManager.NavigateTo("/Libros");
     }
     protected override async Task OnInitializedAsync()
     {
@@ -55,7 +53,7 @@
         {
             listaLibros =  new List<ClaseLibro>();
         }
-
+        libros = listaLibros.FirstOrDefault(c => c.Autor == Autor);
     }
 }
 

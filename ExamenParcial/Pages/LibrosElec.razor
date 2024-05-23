@@ -84,7 +84,7 @@
                     <td>@Revistas.Formato</td>
                     <td>@Revistas.Tamaño</td>
                     <td><button class="btn btn-warning" @onclick="@(() => NavigationManager.NavigateTo($"/ElectronicosEditar/{Revistas.Autor}"))">editar</button></td>
-                    
+                    <td><button class="btn btn-danger" @onclick="@(() => Borrar(Revistas.Autor))">Borrar</button></td>
 
                 </tr>
             }
@@ -112,6 +112,11 @@
             listaLibrosElec=  new List<ClaseLibrosElectronicos>();
         }
 
+    }
+    protected async Task Borrar(string nombre)
+    {
+        listaLibrosElec.Remove(listaLibrosElec.First(c => c.Autor == nombre));
+        await localStorage.SetItemAsync("listaLibrosElec", listaLibrosElec);
     }
 }
 
