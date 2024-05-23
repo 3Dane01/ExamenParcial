@@ -1,4 +1,4 @@
-﻿@page "/Libros"
+﻿@page "/LibrosEditar"
 @inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 <PageTitle>Libros</PageTitle>
@@ -35,37 +35,6 @@
     </div>
 </EditForm>
 
-
-
-
-@if (listaLibros != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titulo</th>
-                <th>Autor</th>
-                <th>Genero</th>
-                <th>Año de publicacion</th>
-                <th>Editar</th>
-                <th>Borrar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Revistas in listaLibros)
-            {
-                <tr>
-                    <td>@Revistas.Titulo</td>
-                    <td>@Revistas.Autor</td>
-                    <td>@Revistas.Genero</td>
-                    <td>@Revistas.AñoPublicacion</td>
-                    <td><button class="btn btn-warning" @onclick="@(() => NavigationManager.NavigateTo($"/librosEditar/{Revistas.Autor}"))">editar</button></td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
-}
 @code {
     ClaseLibro libros = new ClaseLibro();
     List<ClaseLibro> listaLibros = new List<ClaseLibro>();
@@ -88,6 +57,5 @@
         }
 
     }
-
 }
 

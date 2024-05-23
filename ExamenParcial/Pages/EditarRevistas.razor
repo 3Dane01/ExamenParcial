@@ -1,0 +1,71 @@
+﻿@page "/RevistasEditar"
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+<PageTitle>Revistas</PageTitle>
+
+<h1>Ingreso de Revistas</h1>
+
+
+<EditForm Model="@revistas" OnValidSubmit="@Guardar">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label for="Titulo">Titulo: </label>
+        <InputText id="Titulo" @bind-Value="revistas.Titulo" class="form-control" />
+        <ValidationMessage For="() => revistas.Titulo" />
+    </div>
+    <div>
+        <label for="Autor">Autor: </label>
+        <InputText id="Autor" @bind-Value="revistas.Autor" class="form-control" />
+        <ValidationMessage For="() => revistas.Autor" />
+    </div>
+    <div>
+        <label for="Genero">Genero: </label>
+        <InputText id="Genero" @bind-Value="revistas.Genero" class="form-control" />
+        <ValidationMessage For="() => revistas.Genero" />
+    </div>
+    <div>
+        <label for="AñoPublicacion">Año de Publicacion: </label>
+        <InputText id="AñoPublicacion" @bind-Value="revistas.AñoPublicacion" class="form-control" />
+        <ValidationMessage For="() => revistas.AñoPublicacion" />
+    </div>
+    <div>
+        <label for="Volumen">Volumen: </label>
+        <InputText id="Volumen" @bind-Value="revistas.Volumen" class="form-control" />
+        <ValidationMessage For="() => revistas.Volumen" />
+    </div>
+    <div>
+        <label for="NumeroEjemplar">Numero de Ejemplar: </label>
+        <InputText id="NumeroEjemplar" @bind-Value="revistas.NumeroEjemplar" class="form-control" />
+        <ValidationMessage For="() => revistas.NumeroEjemplar" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Guardar</button>
+    </div>
+</EditForm>
+
+@code {
+    ClaseRevistas revistas = new ClaseRevistas();
+    List<ClaseRevistas> listaRevistas = new List<ClaseRevistas>();
+    protected async Task Guardar()
+    {
+        listaRevistas.Add(revistas);
+        revistas = new ClaseRevistas();
+
+        await localStorage.SetItemAsync("listaRevistas", listaRevistas);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        listaRevistas = await localStorage.GetItemAsync<List<ClaseRevistas>>("listaRevistas");
+
+        if (listaRevistas == null)
+        {
+            listaRevistas = new List<ClaseRevistas>();
+        }
+
+    }
+
+    
+}
+
